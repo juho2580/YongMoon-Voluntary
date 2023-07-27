@@ -37,6 +37,14 @@ window.onload = function(){
 function enterkey() {
     if (window.event.keyCode == 13) { // enter 키의 아스키 코드 : 13, 엔터를 누르면
 	var sizeInput = document.getElementById("mazeSize").value; // 미로 사이즈, "mazeSize"라는 Id의 value값 찾기
+	if(sizeInput%2==0){
+		alert("Please enter an odd number.")
+	}
+	if(sizeInput%2==1){
+		tc=sizeInput;
+		initialize()
+
+	}
 	    
 	// 여기에 채워넣어 코드를 완성하세요!
         /*
@@ -89,6 +97,24 @@ function keyPush(evt){
 	
 	switch(evt.keyCode){ 
 
+		case 37:
+			xv=-1
+			yv = 0
+			break
+		case 38:
+			yv=-1
+			xv = 0
+			break
+		case 39:
+			xv=1
+			yv = 0
+            break
+		case 40:
+			yv=1
+			xv = 0
+			break
+
+
 		// 여기에 채워넣어 코드를 완성하세요!
 		/*
 		 * evt.keyCode : 키보드에서 누른 키의 값을 식별하는 코드
@@ -100,6 +126,7 @@ function keyPush(evt){
 		 * right : 39
 		 * down : 40
 		*/
+
 	}
 
     
@@ -121,6 +148,10 @@ function keyPush(evt){
         /* 
          * 현재 위치 좌표와 도착 지점의 좌표를 비교하여 도착 지점에 도달했을 때, "You Win!" 이라는 경고 메시지 생성, 게임 리셋 함수 호출
          */
+		if(cx == (tc - 1) && cy == (tc - 2) ){
+			alert("You Win")
+			initialize()
+		}
 	}
 		
 }
@@ -134,6 +165,12 @@ function randomMazeGenerator(){
 	    /*
 	     * 길이 막혔을 때, 안 막혔을 때 각각 함수 호출 (어떠한 문법, 어떠한 변수, 어떠한 함수를 써야할지 잘 생각해보세요!)
 	     */
+
+		if (stucked){
+			backtracking()
+		}else{
+			tracking()
+		}
     }
 }
 
@@ -145,6 +182,8 @@ function tracking(){
 	/* 
          * 0부터 3까지의 정수를 랜덤으로 생성하는 key 변수 생성 (Math.random 이용하기!, 한 줄 코드.)
          */
+	const key = Math.floor(Math.random()*4);
+    
 	
 	switch(key){
 	case 0: // left move
